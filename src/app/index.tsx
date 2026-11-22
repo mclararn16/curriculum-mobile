@@ -1,53 +1,33 @@
-import { Link, type Href } from "expo-router";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, fonts } from "../../assets/theme";
-
-type BotaoProps = {
-  href: string;
-  label: string;
-  primary?: boolean;
-};
-
-function Botao({ href, label, primary = false }: BotaoProps) {
-  return (
-    <Link href={href as Href} asChild>
-      <Pressable
-        style={({ pressed }) => [
-          styles.botao,
-          primary ? styles.botaoPrimario : styles.botaoSecundario,
-          pressed &&
-            (primary ? styles.primarioPressionado : styles.secundarioPressionado),
-        ]}
-      >
-        {({ pressed }) => (
-          <Text
-            style={[
-              styles.botaoTexto,
-              { color: primary || pressed ? colors.lace : colors.blue },
-            ]}
-          >
-            {label}
-          </Text>
-        )}
-      </Pressable>
-    </Link>
-  );
-}
+import { Botao } from "../components/Botao";
 
 export default function Home() {
+  const insets = useSafeAreaInsets();
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      style={styles.tela}
+      contentContainerStyle={[
+        styles.container,
+        { paddingBottom: insets.bottom + 24 },
+      ]}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.card}>
         <Text style={styles.eyebrow}>Portfólio pessoal</Text>
 
-        <Text style={styles.titulo}>Maria Clara Ribeiro</Text>
+        <Text style={styles.titulo} adjustsFontSizeToFit numberOfLines={2}>
+          Maria Clara Ribeiro
+        </Text>
 
         <Text style={styles.descricao}>
           Estudante de Ciência da Computação, curiosa por tecnologia e criação.
         </Text>
 
         <View style={styles.acoes}>
-          <Botao href="/sobre" label="Me conheça melhor"  />
+          <Botao href="/sobre" label="Me conheça melhor" />
           <Botao href="/projetos" label="Meus projetos" />
           <Botao href="/forca" label="Divirta-se" />
         </View>
@@ -57,17 +37,23 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+  tela: {
+    flex: 1,
+    backgroundColor: colors.lace,
+  },
   container: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: 24,
+    paddingHorizontal: 20,
+    paddingVertical: 28,
   },
   card: {
     alignItems: "center",
-    padding: 24,
+    paddingVertical: 32,
+    paddingHorizontal: 22,
     borderWidth: 2,
     borderColor: colors.blue,
-    borderRadius: 12,
+    borderRadius: 14,
     backgroundColor: colors.card,
     // sombra no iOS
     shadowColor: colors.blue,
@@ -80,7 +66,7 @@ const styles = StyleSheet.create({
   eyebrow: {
     color: colors.red,
     fontFamily: fonts.bold,
-    fontSize: 13,
+    fontSize: 12,
     letterSpacing: 1.8,
     textTransform: "uppercase",
   },
@@ -89,49 +75,22 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     color: colors.blue,
     fontFamily: fonts.black,
-    fontSize: 40,
+    fontSize: 38,
     lineHeight: 42,
     letterSpacing: -0.8,
     textAlign: "center",
   },
   descricao: {
+    maxWidth: 320,
     color: colors.textSoft,
     fontFamily: fonts.regular,
-    fontSize: 17,
-    lineHeight: 29,
+    fontSize: 16,
+    lineHeight: 27,
     textAlign: "center",
   },
   acoes: {
     width: "100%",
     gap: 12,
-    marginTop: 36,
-  },
-  botao: {
-    alignItems: "center",
-    paddingVertical: 15,
-    paddingHorizontal: 22,
-    borderWidth: 2,
-    borderRadius: 999,
-    borderColor: colors.blue,
-  },
-  botaoPrimario: {
-    borderColor: colors.red,
-    backgroundColor: colors.red,
-  },
-  botaoSecundario: {
-    borderColor: colors.blue,
-    backgroundColor: "transparent",
-  },
-  primarioPressionado: {
-    opacity: 0.85,
-    transform: [{ translateY: -3 }],
-  },
-  secundarioPressionado: {
-    backgroundColor: colors.blue,
-    transform: [{ translateY: -3 }],
-  },
-  botaoTexto: {
-    fontFamily: fonts.bold,
-    fontSize: 16,
+    marginTop: 32,
   },
 });

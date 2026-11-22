@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
 import { colors, fonts } from "../../assets/theme";
 
 SplashScreen.preventAutoHideAsync();
@@ -27,15 +28,22 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: { backgroundColor: colors.blue },
-        headerTintColor: colors.lace,
-        headerTitleStyle: { fontFamily: fonts.black },
-        contentStyle: { backgroundColor: colors.lace },
-      }}
-    >
-      <Stack.Screen name="index" options={{ title: "MC" }} />
-    </Stack>
+    <>
+      <StatusBar style="light" />
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: colors.blue },
+          headerTintColor: colors.lace,
+          headerTitleStyle: { fontFamily: fonts.black },
+          headerBackButtonDisplayMode: "minimal",
+          contentStyle: { backgroundColor: colors.lace },
+        }}
+      >
+        <Stack.Screen name="index" options={{ title: "MC" }} />
+        <Stack.Screen name="sobre" options={{ title: "Sobre mim" }} />
+        <Stack.Screen name="projetos" options={{ title: "Projetos" }} />
+        <Stack.Screen name="forca" options={{ title: "Jogo da Forca" }} />
+      </Stack>
+    </>
   );
 }
